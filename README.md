@@ -28,4 +28,8 @@ Scalability
 
 Elastic Load Balancing: The ALB distributes incoming traffic across multiple ECS tasks, ensuring high availability and scalability.
 ECS with Fargate: ECS is configured with Fargate, allowing for automatic scaling of containerized applications without the need to manage underlying EC2 instances.
-Auto-scaling: ECS services are set to scale based on demand(CPU and Memory Utilization), adding more tasks as needed to handle increased traffic.
+Auto-scaling: ECS services are set to scale based on demand (CPU and Memory Utilization), adding more tasks as needed to handle increased traffic.
+
+
+In continuing to this approach, in terms of observability part - we can leverage, ECS Logs collection , RDS - exporiting logs to cloudwatch and security aspect to enable VPC FlowLogs and create neccessary alerts for real-time incident detection. Whereas in global level - implementing WAF on top of ALB and managning Route53 to handle the traffic pointing to ALB with loadbalancing techniques according to the End User accessibility of the application. Yet this is only initial understanding of architecture perspective 
+according to growing demand of the application, where we can use much more AWS services to fullfill the needs.
