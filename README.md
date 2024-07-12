@@ -1,3 +1,9 @@
+**Architectural Approach of Terraform Project**
+
+![Architectural Approach of Terraform Project](https://github.com/user-attachments/assets/af1c4462-1d12-4d2e-aa8e-2b03b4e10612)
+
+
+
 This project provides a Terraform-based approach to deploy a scalable and secure infrastructure on AWS, featuring a VPC, Application Load Balancer (ALB), Elastic Container Service (ECS), Aurora MySQL RDS. The infrastructure is divided into multiple modules for better organization and maintainability. 
 
 Overview
