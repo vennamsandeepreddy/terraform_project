@@ -79,6 +79,7 @@ module "rds" {
     vpc_id = module.vpc.vpc_id
     security_group_ecs = [module.ecs.security_group_ecs]
     rds_credentials_username = var.rds_credentials_username
+    replica_count = var.replica_count
     aws_rds_cluster_instance_identifier_name = var.aws_rds_cluster_instance_identifier_name
     aws_rds_cluster_instance_instane_class = var.aws_rds_cluster_instance_instane_class
     aws_rds_cluster_env_tag = var.aws_rds_cluster_env_tag

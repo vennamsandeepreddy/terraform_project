@@ -35,7 +35,7 @@ variable "aws_rds_cluster_instance_identifier_name" {}
 variable "aws_rds_cluster_instance_instane_class" {}
 variable "aws_rds_cluster_env_tag" {}
 variable "rds_credentials_username" {}
-
+variable "replica_count" {}
 
 
 ############ Variables for ECS Module ############

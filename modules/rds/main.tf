@@ -11,7 +11,7 @@ resource "aws_rds_cluster" "cluster" {
   deletion_protection = true
   backup_retention_period = 10
   preferred_backup_window = "07:00-09:00"  # hh:mm-hh:mm
-  enabled_cloudwatch_logs_exports = ["audit", "error", "general", "slowquery", "postgresql"]
+  enabled_cloudwatch_logs_exports = ["audit", "error", "general", "slowquery"]
   
   tags = {
     name = "RDS cluster for ECS"
@@ -21,7 +21,8 @@ resource "aws_rds_cluster" "cluster" {
 }
 
 resource "aws_rds_cluster_instance" "replica" {
-  cluster_identifier   = aws_rds_cluster.cluster.id
+  count = var.replica_count
+  cluster_identifier   = "${aws_rds_cluster.cluster.id}-${count.index}"
   identifier           = var.aws_rds_cluster_instance_identifier_name
   instance_class       = var.aws_rds_cluster_instance_instane_class
   engine               = aws_rds_cluster.cluster.engine
@@ -30,6 +31,32 @@ resource "aws_rds_cluster_instance" "replica" {
   db_subnet_group_name = aws_db_subnet_group.db_subnet_group.id
 }
 
+resource "aws_appautoscaling_target" "read_replica_scaling_target" {
+  max_capacity       = 15
+  min_capacity       = 1
+  resource_id        = "cluster:${aws_rds_cluster.aurora.id}"
+  scalable_dimension = "rds:cluster:ReadReplicaCount"
+  service_namespace  = "rds"
+}
+
+resource "aws_appautoscaling_policy" "read_replica_scaling_policy" {
+  name               = "read-replica-scaling-policy"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.read_replica_scaling_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.read_replica_scaling_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.read_replica_scaling_target.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    target_value = 50.0
+
+    predefined_metric_specification {
+      predefined_metric_type = "RDSReaderAverageCPUUtilization"
+    }
+
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
+  }
+}
 resource "aws_db_subnet_group" "db_subnet_group" {
   name = "rds"
   subnet_ids = var.private_zones

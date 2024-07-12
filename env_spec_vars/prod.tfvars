@@ -1,4 +1,4 @@
-# Examples value with respect to Prod Env
+# Example values with respect to Prod Env
 
 
 ############ variables for ACM Module ############
@@ -40,6 +40,7 @@ aws_rds_cluster_database_name = "prod"
 rds_credentials_username = "username"
 aws_rds_cluster_port = 3306
 aws_rds_cluster_instance_identifier_name = "replica-a"
+replica_count = 2
 aws_rds_cluster_instance_instane_class = "db.t3.medium"
 aws_rds_cluster_env_tag = "prod"
 

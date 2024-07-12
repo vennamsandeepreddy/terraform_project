@@ -31,6 +31,11 @@ variable "security_group_ecs" {
   
 }
 
+variable "replica_count" {
+    type = number
+    description = "The number represent how many DB instances to provision on DB cluster"
+}
+
 variable "aws_rds_cluster_database_name" {
     type = string
     description = "declaration of database name"
